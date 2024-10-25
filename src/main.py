@@ -1,9 +1,10 @@
 import pygame as pg
-from typing import Optional, Tuple, Union
+from typing import Tuple
 from constants import GAME_SCALE_FACTOR, MouseButton
 
 # init pygame before importing scenes so that assets can be loaded
 pg.init()
+# two surface to upscale pixelart
 game_surface = pg.Surface((320, 320))
 screen = pg.display.set_mode((640, 640))
 pg.display.set_caption("Minesweeper")
@@ -17,6 +18,8 @@ running = True
 prev_mouse = (False,) * 3
 current_scene: Scene = Menu()
 
+# functions given to scenes
+
 def resize_screen(size: Tuple[int, int]) -> None:
     global screen, game_surface
     game_surface = pg.Surface(size)
@@ -29,6 +32,7 @@ def change_scene(scene: Scene) -> None:
 
 current_scene.start(change_scene, resize_screen)
 
+# translate to game coordinates
 def translate_mouse_pos(pos: Tuple[int, int]) -> Tuple[int, int]:
     return pos[0] // GAME_SCALE_FACTOR, pos[1] // GAME_SCALE_FACTOR
 
@@ -39,6 +43,7 @@ while running:
     if not running:
         break
 
+    # forward mouse presses to the current scene
     mouse = pg.mouse.get_pressed()
     if mouse[0] and not prev_mouse[0]:
         current_scene.handle_click(MouseButton.MOUSE_LEFT, translate_mouse_pos(pg.mouse.get_pos()))
@@ -46,9 +51,11 @@ while running:
         current_scene.handle_click(MouseButton.MOUSE_RIGHT, translate_mouse_pos(pg.mouse.get_pos()))
     prev_mouse = mouse
 
+    # call scene to draw a frame
     game_surface.fill((0, 0, 0))
     current_scene.draw(game_surface)
 
+    # upscale the scene
     scaled_surface = pg.transform.scale(game_surface, (screen.get_width(), screen.get_height()))
     screen.blit(scaled_surface, (0, 0))
 

@@ -2,7 +2,7 @@ from entity import Entity
 from game import Game
 import pygame as pg
 from typing import Callable, Tuple
-from constants import MouseButton
+from constants import TILE_SIZE, MouseButton
 from pygame import Surface
 from scene import Scene
 from assets import Assets
@@ -22,7 +22,7 @@ class Menu(Scene):
         start_button = Entity(
             Surface((120, 40)),
             (100, 240),
-            lambda _btn, _pos: self.start_game()
+            click_handler=lambda _btn, _pos: self.start_game()
         )
         start_button.surface.fill((0x4b, 0x55, 0x63))
         start_button.surface.blit(
@@ -36,20 +36,21 @@ class Menu(Scene):
         # TODO: implement quit button
 
     def handle_click(self, btn: MouseButton, pos: Tuple[int, int]) -> None:
+        # forward click to clicked button
         for button in self.buttons:
             if button.rect.collidepoint(pos):
                 if btn == MouseButton.MOUSE_LEFT:
                     button.handle_click(btn, pos)
 
     def start_game(self) -> None:
-        self.change_scene(Game(10, 20, 20))
+        self.change_scene(Game(10, 10, 20))
 
     def draw(self, screen: Surface) -> None:
         # TODO: draw a title
 
         for r in range(20):
             for c in range(20):
-                screen.blit(Assets["unknown"], (r * 16, c * 16))
+                screen.blit(Assets["unknown"], (c * TILE_SIZE, r * TILE_SIZE))
         
         for btn in self.buttons:
             btn.draw(screen)

@@ -1,4 +1,4 @@
-# Minesweeper for Elementary Programming (521141P-3014)
+# Minesweeper for Elementary Programming (521141P)
 
 ## Get started (Linux)
 
