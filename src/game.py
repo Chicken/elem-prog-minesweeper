@@ -21,7 +21,7 @@ class Game(Scene):
         self.tile_states = [[TileState.UNKNOWN for _ in range(width)] for _ in range(height)]
 
     def start(self, change_scene: Callable[['Scene'], None], resize_screen: Callable[[Tuple[int, int]], None]) -> None:
-        resize_screen((self.height * TILE_SIZE, self.width * TILE_SIZE))
+        resize_screen((self.width * TILE_SIZE, self.height * TILE_SIZE))
         self.change_scene = change_scene
 
     def handle_click(self, btn: MouseButton, pos: Tuple[int, int]) -> None:

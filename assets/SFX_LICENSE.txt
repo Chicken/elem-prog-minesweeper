@@ -1,0 +1,9 @@
+License: CC0 (https://creativecommons.org/publicdomain/zero/1.0/)
+Author: LokiF (https://opengameart.org/users/lokif)
+URL: https://opengameart.org/content/gui-sound-effects
+Files: negative_btn.wav, positive_btn.wav
+
+License: CC-BY-SA 3.0 (hhttp://creativecommons.org/licenses/by-sa/3.0/)
+Author: Unnamed <Viktor.Hahn@web.de> (https://opengameart.org/users/unnamed)
+URL: https://opengameart.org/content/9-explosion-sounds
+Files: explosion.wav

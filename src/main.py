@@ -4,6 +4,7 @@ from constants import GAME_SCALE_FACTOR, MouseButton
 
 # init pygame before importing scenes so that assets can be loaded
 pg.init()
+pg.mixer.set_num_channels(16)
 # two surface to upscale pixelart
 game_surface = pg.Surface((320, 320))
 screen = pg.display.set_mode((640, 640))
