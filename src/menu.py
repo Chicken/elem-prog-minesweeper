@@ -21,9 +21,9 @@ class Menu(Scene):
         self.entities = []
 
         # load different font sizes for different texts
-        self.font50 = pg.font.Font("./assets/PixelifySans-Regular.ttf", 50)
-        self.font30 = pg.font.Font("./assets/PixelifySans-Regular.ttf", 30)
-        self.font25 = pg.font.Font("./assets/PixelifySans-Regular.ttf", 25)
+        self.font38 = pg.font.Font("./assets/Poppins-Regular.ttf", 38)
+        self.font28 = pg.font.Font("./assets/Poppins-Regular.ttf", 28)
+        self.font22 = pg.font.Font("./assets/Poppins-Regular.ttf", 22)
 
         # menu buttons and settings displays 
         
@@ -33,7 +33,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.start_game()
         )
         start_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(start_button.surface, self.font30, (255, 255, 255), "Start")
+        self.draw_text_centered(start_button.surface, self.font28, (255, 255, 255), "Start")
         self.entities.append(start_button)
 
         exit_button = Entity(
@@ -42,7 +42,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.exit_game()
         )
         exit_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(exit_button.surface, self.font25, (255, 255, 255), "Exit")
+        self.draw_text_centered(exit_button.surface, self.font22, (255, 255, 255), "Exit")
         self.entities.append(exit_button)
 
         decrease_width_button = Entity(
@@ -51,7 +51,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.decrease_width()
         )
         decrease_width_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(decrease_width_button.surface, self.font25, (255, 255, 255), "-")
+        self.draw_text_centered(decrease_width_button.surface, self.font22, (255, 255, 255), "-")
         self.entities.append(decrease_width_button)
 
         self.width_display = Entity(
@@ -67,7 +67,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.increase_width()
         )
         increase_width_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(increase_width_button.surface, self.font25, (255, 255, 255), "+")
+        self.draw_text_centered(increase_width_button.surface, self.font22, (255, 255, 255), "+")
         self.entities.append(increase_width_button)
 
         decrease_height_button = Entity(
@@ -76,7 +76,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.decrease_height()
         )
         decrease_height_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(decrease_height_button.surface, self.font25, (255, 255, 255), "-")
+        self.draw_text_centered(decrease_height_button.surface, self.font22, (255, 255, 255), "-")
         self.entities.append(decrease_height_button)
 
         self.height_display = Entity(
@@ -92,7 +92,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.increase_height()
         )
         increase_height_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(increase_height_button.surface, self.font25, (255, 255, 255), "+")
+        self.draw_text_centered(increase_height_button.surface, self.font22, (255, 255, 255), "+")
         self.entities.append(increase_height_button)
 
         decrease_mines_button = Entity(
@@ -101,7 +101,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.decrease_mines()
         )
         decrease_mines_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(decrease_mines_button.surface, self.font25, (255, 255, 255), "-")
+        self.draw_text_centered(decrease_mines_button.surface, self.font22, (255, 255, 255), "-")
         self.entities.append(decrease_mines_button)
 
         self.mines_display = Entity(
@@ -117,7 +117,7 @@ class Menu(Scene):
             click_handler=lambda _btn, _pos: self.increase_mines()
         )
         increase_mines_button.surface.fill((0x4b, 0x55, 0x63))
-        self.draw_text_centered(increase_mines_button.surface, self.font25, (255, 255, 255), "+")
+        self.draw_text_centered(increase_mines_button.surface, self.font22, (255, 255, 255), "+")
         self.entities.append(increase_mines_button)
 
         # TODO: implement scrollable history
@@ -131,7 +131,7 @@ class Menu(Scene):
 
     def draw_text_centered(self, surface: Surface, font: pg.font.Font, color: Tuple[int, int, int], text: str) -> None:
         surface.blit(
-            font.render(text, False, color),
+            font.render(text, True, color),
             (
                 int(surface.get_width() / 2 - font.size(text)[0] / 2),
                 int(surface.get_height() / 2 - font.size(text)[1] / 2)
@@ -199,15 +199,15 @@ class Menu(Scene):
 
     def update_width_display(self) -> None:
         self.width_display.surface.fill((0x6b, 0x72, 0x80))
-        self.draw_text_centered(self.width_display.surface, self.font25, (255, 255, 255), str(self.game_width))
+        self.draw_text_centered(self.width_display.surface, self.font22, (255, 255, 255), str(self.game_width))
 
     def update_height_display(self) -> None:
         self.height_display.surface.fill((0x6b, 0x72, 0x80))
-        self.draw_text_centered(self.height_display.surface, self.font25, (255, 255, 255), str(self.game_height))
+        self.draw_text_centered(self.height_display.surface, self.font22, (255, 255, 255), str(self.game_height))
 
     def update_mines_display(self) -> None:
         self.mines_display.surface.fill((0x6b, 0x72, 0x80))
-        self.draw_text_centered(self.mines_display.surface, self.font25, (255, 255, 255), str(self.game_mines))
+        self.draw_text_centered(self.mines_display.surface, self.font22, (255, 255, 255), str(self.game_mines))
 
     def draw(self, screen: Surface) -> None:
         # background
@@ -219,36 +219,36 @@ class Menu(Scene):
         # on screen texts
 
         screen.blit(
-            self.font50.render(
+            self.font38.render(
                 "Minesweeper",
-                False,
+                True,
                 (255, 255, 255)
             ),
-            (int(screen.get_width() / 2 - self.font50.size("Minesweeper")[0] / 2),0)
+            (int(screen.get_width() / 2 - self.font38.size("Minesweeper")[0] / 2),0)
         )
 
         screen.blit(
-            self.font25.render(
+            self.font22.render(
                 "Width",
-                False,
+                True,
                 (255, 255, 255)
             ),
             (25,220)
         )
 
         screen.blit(
-            self.font25.render(
+            self.font22.render(
                 "Height",
-                False,
+                True,
                 (255, 255, 255)
             ),
             (120,220)
         )
 
         screen.blit(
-            self.font25.render(
+            self.font22.render(
                 "Mines",
-                False,
+                True,
                 (255, 255, 255)
             ),
             (227,220)
