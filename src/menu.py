@@ -17,7 +17,7 @@ class Menu(Scene):
 
     def start(self, change_scene, resize_screen) -> None:
         screen_surface = pg.display.get_surface()
-        if screen_surface.get_width() != 640 and screen_surface.get_height() != 640:
+        if screen_surface.get_width() != 640 or screen_surface.get_height() != 640:
             resize_screen((640, 640))
         self.change_scene = change_scene
         self.entities = []
