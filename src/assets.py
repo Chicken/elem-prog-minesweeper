@@ -1,4 +1,5 @@
 import os
+from constants import GAME_SCALE_FACTOR
 import pygame as pg
 
 Assets = {}
@@ -7,4 +8,5 @@ Assets = {}
 for file in os.listdir("assets"):
     if file.endswith(".png"):
         name = file[:-4]
-        Assets[name] = pg.image.load("assets/" + file).convert()
+        asset = pg.image.load("assets/" + file).convert()
+        Assets[name] = pg.transform.scale(asset, (asset.get_width() * GAME_SCALE_FACTOR, asset.get_height() * GAME_SCALE_FACTOR))

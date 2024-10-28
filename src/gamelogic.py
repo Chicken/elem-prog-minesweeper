@@ -3,7 +3,7 @@ from threading import Thread
 from time import sleep
 from typing import List, Tuple
 
-from constants import TileState
+from constants import MINE, TileState
 
 def populate_field(target_field: List[List[str]], mine_count: int, safe_position: Tuple[int, int]) -> None:
     h = len(target_field)
@@ -18,14 +18,14 @@ def populate_field(target_field: List[List[str]], mine_count: int, safe_position
                 continue
             candidates.append((r, c))
 
-    bombs = random.sample(candidates, k=mine_count)
-    for r, c in bombs:
-        target_field[r][c] = "bomb"
+    mines = random.sample(candidates, k=mine_count)
+    for r, c in mines:
+        target_field[r][c] = MINE
 
     # calculate numbers
     for r in range(h):
         for c in range(w):
-            if target_field[r][c] == "bomb":
+            if target_field[r][c] == MINE:
                 continue
             count = 0
             for dr in (-1, 0, 1):
@@ -35,7 +35,7 @@ def populate_field(target_field: List[List[str]], mine_count: int, safe_position
                     nr, nc = r + dr, c + dc
                     if nr < 0 or nr >= h or nc < 0 or nc >= w:
                         continue
-                    if target_field[nr][nc] == "bomb":
+                    if target_field[nr][nc] == MINE:
                         count += 1
             target_field[r][c] = str(count)
 
