@@ -1,8 +1,8 @@
 from time import time
 from typing import Tuple
-from constants import MINE, TILE_SIZE, TOP_OFFSET, TileState, MouseButton
+from constants import *
 from entity import Entity
-from gamelogic import populate_field, reveal
+from gamelogic import neighbours, populate_field, reveal
 from history import History, HistoryEntry
 from pygame import Surface
 from scene import Scene
@@ -17,6 +17,10 @@ def translate_tile_to_world(pos: Tuple[int, int]) -> Tuple[int, int]:
     return pos[1] * TILE_SIZE, pos[0] * TILE_SIZE + TOP_OFFSET
 
 class Game(Scene):
+    """
+    The actual playable scene of the game
+    """
+
     def __init__(self, width: int, height: int, mines: int) -> None:
         self.width = width
         self.height = height
@@ -39,8 +43,8 @@ class Game(Scene):
             (int(self.width * TILE_SIZE / 2 - 30), 0),
             click_handler=lambda _btn, _pos: self.restart_game()
         )
-        restart_button.surface.fill((0x6b, 0x72, 0x80))
-        draw_text_centered(restart_button.surface, Font22, (255, 255, 255), ":D")
+        restart_button.surface.fill(GREY)
+        draw_text_centered(restart_button.surface, Font22, WHITE, ":D")
         self.entities.append(restart_button)
 
         self.mines_display = Entity(
@@ -111,7 +115,7 @@ class Game(Scene):
                     reveal(self.field, self.tile_states, (r, c))
 
                 # check for win
-                unrevealed = sum([sum([tile == TileState.UNKNOWN or tile == TileState.FLAGGED for tile in row]) for row in self.tile_states])
+                unrevealed = sum([(row.count(TileState.UNKNOWN) + row.count(TileState.FLAGGED)) for row in self.tile_states])
                 if unrevealed == self.mines:
                     # end game a a win
                     duration = int(time() - self.start_time)
@@ -134,27 +138,15 @@ class Game(Scene):
             elif self.tile_states[r][c] == TileState.VISIBLE and self.field[r][c] != "0" and self.field[r][c] != MINE:
                 # count surround flags
                 surrounding_flags = 0
-                for dr in (-1, 0, 1):
-                    for dc in (-1, 0, 1):
-                        if (dr, dc) == (0, 0):
-                            continue
-                        nr, nc = r + dr, c + dc
-                        if nr < 0 or nr >= self.height or nc < 0 or nc >= self.width:
-                            continue
-                        if self.tile_states[nr][nc] == TileState.FLAGGED:
-                            surrounding_flags += 1
+                for (nr, nc) in neighbours(self.width, self.height, r, c):
+                    if self.tile_states[nr][nc] == TileState.FLAGGED:
+                        surrounding_flags += 1
                 # reveal surrounding tiles if flag count matches number on tile
                 if surrounding_flags == int(self.field[r][c]):
-                    for dr in (-1, 0, 1):
-                        for dc in (-1, 0, 1):
-                            if (dr, dc) == (0, 0):
-                                continue
-                            nr, nc = r + dr, c + dc
-                            if nr < 0 or nr >= self.height or nc < 0 or nc >= self.width:
-                                continue
-                            if self.tile_states[nr][nc] == TileState.UNKNOWN:
-                                # emulate a click (handles floodfill and lose/win condition)
-                                self.handle_click(MouseButton.MOUSE_LEFT, translate_tile_to_world((nr, nc)))
+                    for (nr, nc) in neighbours(self.width, self.height, r, c):
+                        if self.tile_states[nr][nc] == TileState.UNKNOWN:
+                            # emulate a click (handles floodfill and lose/win condition)
+                            self.handle_click(MouseButton.MOUSE_LEFT, translate_tile_to_world((nr, nc)))
         # toggle flag on an unrevealed tile
         elif btn == MouseButton.MOUSE_RIGHT:
             if self.tile_states[r][c] == TileState.UNKNOWN:
@@ -172,14 +164,14 @@ class Game(Scene):
         self.moves = 0
 
     def update_mines_display(self):
-        self.mines_display.surface.fill((0x6b, 0x72, 0x80))
+        self.mines_display.surface.fill(GREY)
         remaining_mines = self.mines - sum([row.count(TileState.FLAGGED) for row in self.tile_states])
-        draw_text_centered(self.mines_display.surface, Font22, (255, 255, 255), str(remaining_mines))
+        draw_text_centered(self.mines_display.surface, Font22, WHITE, str(remaining_mines))
 
     def update_timer_display(self):
-        self.timer_display.surface.fill((0x6b, 0x72, 0x80))
+        self.timer_display.surface.fill(GREY)
         timer = min(999, int(time() - self.start_time)) if self.generated else 0
-        draw_text_centered(self.timer_display.surface, Font22, (255, 255, 255), str(timer))
+        draw_text_centered(self.timer_display.surface, Font22, WHITE, str(timer))
 
     def draw(self, screen) -> None:
         # draw field
@@ -194,7 +186,7 @@ class Game(Scene):
                     screen.blit(Assets[self.field[r][c]], translate_tile_to_world((r, c)))
 
         # top bar
-        screen.fill((0x4b, 0x55, 0x63), (0,0, self.width * TILE_SIZE, TOP_OFFSET))
+        screen.fill(LIGHT_GREY, (0,0, self.width * TILE_SIZE, TOP_OFFSET))
 
         for ent in self.entities:
             ent.update()

@@ -7,6 +7,9 @@ Font22 = pg.font.Font("./assets/Poppins-Regular.ttf", 22)
 Font16 = pg.font.Font("./assets/Poppins-Regular.ttf", 16)
 
 def draw_text_centered(surface: pg.Surface, font: pg.font.Font, color: Tuple[int, int, int], text: str) -> None:
+    """
+    Writes a text centered on a surface with a given font and color
+    """
     parts = text.split("\n")
     sizes = [font.size(part) for part in parts]
     total_height = sum(size[1] for size in sizes)

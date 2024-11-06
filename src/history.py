@@ -23,11 +23,16 @@ class HistoryEntry:
 history_singleton = None
 class History:
     def __init__(self):
+        """
+        Do not initialize directly, use get_instance() instead
+        """
         try:
-            with open("history.txt", "r") as f:
+            with open("history.csv", "r") as f:
                 self._history = [HistoryEntry.from_string(entry) for entry in f.readlines()]
-        except FileNotFoundError:
+        except Exception:
             self._history = []
+            with open("history.csv", "w") as f:
+                f.write("")
     
     @staticmethod
     def get_instance():
@@ -42,5 +47,5 @@ class History:
     
     def add_entry(self, entry: HistoryEntry):
         self._history.append(entry)
-        with open("history.txt", "a") as f:
+        with open("history.csv", "a") as f:
             f.write(str(entry) + "\n")

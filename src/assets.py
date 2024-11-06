@@ -1,6 +1,6 @@
 import os
-from constants import GAME_SCALE_FACTOR
 import pygame as pg
+from constants import GAME_SCALE_FACTOR
 
 Assets = {}
 

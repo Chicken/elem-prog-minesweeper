@@ -1,6 +1,6 @@
 import pygame as pg
 from typing import Tuple
-from constants import GAME_SCALE_FACTOR, MouseButton
+from constants import BLACK, MouseButton
 
 # init pygame before importing scenes so that assets can be loaded
 pg.init()
@@ -20,10 +20,16 @@ current_scene: Scene = Menu()
 # functions given to scenes
 
 def resize_screen(size: Tuple[int, int]) -> None:
+    """
+    Resize the screen to the given size
+    """
     global screen
     screen = pg.display.set_mode(size)
 
 def change_scene(scene: Scene) -> None:
+    """
+    Change the current scene to the given scene and start it
+    """
     global current_scene
     current_scene = scene
     scene.start(change_scene, resize_screen)
@@ -31,9 +37,11 @@ def change_scene(scene: Scene) -> None:
 current_scene.start(change_scene, resize_screen)
 
 while running:
+    # handle pygame events
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+        # forward scroll events as mouse clicks
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 4:
                 current_scene.handle_click(MouseButton.MOUSE_SCROLL_UP, pg.mouse.get_pos())
@@ -50,8 +58,8 @@ while running:
         current_scene.handle_click(MouseButton.MOUSE_RIGHT, pg.mouse.get_pos())
     prev_mouse = mouse
 
-    # call scene to draw a fram
-    screen.fill((0, 0, 0))
+    # call scene to draw a frame
+    screen.fill(BLACK)
     current_scene.draw(screen)
 
     pg.display.flip()

@@ -1,7 +1,7 @@
 from entity import Entity
 from history import History
 import pygame as pg
-from constants import HISTORY_ITEM_HEIGHT, MAX_HEIGHT, MAX_MINES_PERCENTAGE, MAX_WIDTH, MIN_HEIGHT, MIN_MINES, MIN_WIDTH, SCROLL_FACTOR, TILE_SIZE, MouseButton
+from constants import *
 from pygame import Surface
 from scene import Scene
 from assets import Assets
@@ -9,6 +9,11 @@ from sfx import Sfx
 from font import Font54, Font36, Font22, Font16, draw_text_centered
 
 class Menu(Scene):
+    """
+    Main menu scene of the game.
+    Allows changing game settings and viewing the game history.
+    """
+
     def __init__(self) -> None:
         self.game_width = 10
         self.game_height = 10
@@ -41,8 +46,8 @@ class Menu(Scene):
             (230, 560),
             click_handler=lambda _btn, _pos: self.start_game()
         )
-        start_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(start_button.surface, Font36, (255, 255, 255), "Start")
+        start_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(start_button.surface, Font36, WHITE, "Start")
         self.entities.append(start_button)
 
         exit_button = Entity(
@@ -50,8 +55,8 @@ class Menu(Scene):
             (40, 580),
             click_handler=lambda _btn, _pos: self.exit_game()
         )
-        exit_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(exit_button.surface, Font22, (255, 255, 255), "Exit")
+        exit_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(exit_button.surface, Font22, WHITE, "Exit")
         self.entities.append(exit_button)
 
         decrease_width_button = Entity(
@@ -59,8 +64,8 @@ class Menu(Scene):
             (40, 500),
             click_handler=lambda _btn, _pos: self.decrease_width()
         )
-        decrease_width_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(decrease_width_button.surface, Font22, (255, 255, 255), "-")
+        decrease_width_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(decrease_width_button.surface, Font22, WHITE, "-")
         self.entities.append(decrease_width_button)
 
         self.width_display = Entity(
@@ -75,8 +80,8 @@ class Menu(Scene):
             (160, 500),
             click_handler=lambda _btn, _pos: self.increase_width()
         )
-        increase_width_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(increase_width_button.surface, Font22, (255, 255, 255), "+")
+        increase_width_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(increase_width_button.surface, Font22, WHITE, "+")
         self.entities.append(increase_width_button)
 
         decrease_height_button = Entity(
@@ -84,8 +89,8 @@ class Menu(Scene):
             (240, 500),
             click_handler=lambda _btn, _pos: self.decrease_height()
         )
-        decrease_height_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(decrease_height_button.surface, Font22, (255, 255, 255), "-")
+        decrease_height_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(decrease_height_button.surface, Font22, WHITE, "-")
         self.entities.append(decrease_height_button)
 
         self.height_display = Entity(
@@ -100,8 +105,8 @@ class Menu(Scene):
             (360, 500),
             click_handler=lambda _btn, _pos: self.increase_height()
         )
-        increase_height_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(increase_height_button.surface, Font22, (255, 255, 255), "+")
+        increase_height_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(increase_height_button.surface, Font22, WHITE, "+")
         self.entities.append(increase_height_button)
 
         decrease_mines_button = Entity(
@@ -109,8 +114,8 @@ class Menu(Scene):
             (440, 500),
             click_handler=lambda _btn, _pos: self.decrease_mines()
         )
-        decrease_mines_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(decrease_mines_button.surface, Font22, (255, 255, 255), "-")
+        decrease_mines_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(decrease_mines_button.surface, Font22, WHITE, "-")
         self.entities.append(decrease_mines_button)
 
         self.mines_display = Entity(
@@ -125,8 +130,8 @@ class Menu(Scene):
             (560, 500),
             click_handler=lambda _btn, _pos: self.increase_mines()
         )
-        increase_mines_button.surface.fill((0x4b, 0x55, 0x63))
-        draw_text_centered(increase_mines_button.surface, Font22, (255, 255, 255), "+")
+        increase_mines_button.surface.fill(LIGHT_GREY)
+        draw_text_centered(increase_mines_button.surface, Font22, WHITE, "+")
         self.entities.append(increase_mines_button)
 
     def handle_click(self, btn, pos) -> None:
@@ -206,26 +211,26 @@ class Menu(Scene):
     # settings display updater functions
 
     def update_width_display(self) -> None:
-        self.width_display.surface.fill((0x6b, 0x72, 0x80))
-        draw_text_centered(self.width_display.surface, Font22, (255, 255, 255), str(self.game_width))
+        self.width_display.surface.fill(GREY)
+        draw_text_centered(self.width_display.surface, Font22, WHITE, str(self.game_width))
 
     def update_height_display(self) -> None:
-        self.height_display.surface.fill((0x6b, 0x72, 0x80))
-        draw_text_centered(self.height_display.surface, Font22, (255, 255, 255), str(self.game_height))
+        self.height_display.surface.fill(GREY)
+        draw_text_centered(self.height_display.surface, Font22, WHITE, str(self.game_height))
 
     def update_mines_display(self) -> None:
-        self.mines_display.surface.fill((0x6b, 0x72, 0x80))
-        draw_text_centered(self.mines_display.surface, Font22, (255, 255, 255), str(self.game_mines))
+        self.mines_display.surface.fill(GREY)
+        draw_text_centered(self.mines_display.surface, Font22, WHITE, str(self.game_mines))
 
     # history
 
     def update_history_display(self) -> None:
-        self.history_display.surface.fill((0x4b, 0x55, 0x63))
+        self.history_display.surface.fill(LIGHT_GREY)
         if len(self.hist) == 0:
             draw_text_centered(
                 self.history_display.surface,
                 Font16,
-                (255, 255, 255),
+                WHITE,
                 "No history yet.\nPlay your first game to see it here.\nPlay enough games and you'll get the joy of scrolling this container!\n:D"   
             )
         for i, entry in enumerate(reversed(self.hist)):
@@ -252,7 +257,7 @@ class Menu(Scene):
             Font54.render(
                 "Minesweeper",
                 True,
-                (255, 255, 255)
+                WHITE
             ),
             (int(screen.get_width() / 2 - Font54.size("Minesweeper")[0] / 2),0)
         )
@@ -261,7 +266,7 @@ class Menu(Scene):
             Font22.render(
                 "Width",
                 True,
-                (255, 255, 255)
+                WHITE
             ),
             (85,470)
         )
@@ -270,7 +275,7 @@ class Menu(Scene):
             Font22.render(
                 "Height",
                 True,
-                (255, 255, 255)
+                WHITE
             ),
             (285,470)
         )
@@ -279,7 +284,7 @@ class Menu(Scene):
             Font22.render(
                 "Mines",
                 True,
-                (255, 255, 255)
+                WHITE
             ),
             (485,470)
         )
